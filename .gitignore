@@ -1,0 +1,10 @@
+*.iml
+.gradle
+*.properties
+/.idea
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+/app/build/
+/app/build/lint.xml
