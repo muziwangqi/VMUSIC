@@ -120,12 +120,13 @@ public class UpdateInformation extends BaseActivity implements OnClickListener {
             case R.id.update_birthdy:
                 final Calendar calendar = Calendar.getInstance();
                 int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH);
+                int month = calendar.get(Calendar.MONTH)+1;
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
                 new DatePickerDialog(UpdateInformation.this, new DatePickerDialog.OnDateSetListener() {
                     public void onDateSet(DatePicker view, int year, int mouthOfYear, int dayOfMonth) {
                         // TODO Auto-generated method stub
-                        updateBirthdy.setText(year + "-" + mouthOfYear + 1 + "-" + dayOfMonth);
+                        mouthOfYear = mouthOfYear+1;
+                        updateBirthdy.setText(year + "-" + mouthOfYear + "-" + dayOfMonth);
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
                 break;

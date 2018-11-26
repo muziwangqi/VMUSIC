@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_toRightOf="@+id/update_head"
-            android:text="输入昵称"
+            android:hint="输入昵称"
             android:textColor="#454545" />
     </RelativeLayout>
 
@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/up_text4"
-            android:text="输入手机号"
+            android:hint="输入手机号"
             android:textColor="#454545"
             android:textSize="24sp" />
     </RelativeLayout>
@@ -130,7 +130,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/up_text6"
-            android:text="1996-11-06"
+            android:hint="1996-11-06"
             android:textColor="#454545"
             android:textSize="24sp" />
     </RelativeLayout>

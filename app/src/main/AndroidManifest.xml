@@ -34,6 +34,10 @@
     <!-- bluetooth -->
     <uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-feature android:name="android.hardware.bluetooth_le"
+        android:required="true"/>
     <!-- 6.0 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
@@ -59,7 +63,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".view.activity.BluetoothDevicesListActivity"/>
+        <activity android:name=".view.activity.BluetoothChatActivity"/>
         <activity android:name=".view.activity.MainActivity" />
         <activity android:name=".view.activity.AboutActivity" />
         <activity android:name=".view.activity.HelpActivity" />
