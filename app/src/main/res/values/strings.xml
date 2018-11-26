@@ -29,4 +29,5 @@
     <string name="choosequestion">选择你的问题类型</string>
     <string name="advice">意见反馈</string>
     <string name="chooseadvice">选择你的反馈类型</string>
+    <string name="unknown">未知</string>
 </resources>

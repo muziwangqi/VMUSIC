@@ -36,7 +36,6 @@ public class SettingModuleFragment extends BaseFragment {
     private static final String TAG = SettingModuleFragment.class.getSimpleName();
 
     private Button btnLight, btnWireless, btnTheme, btnBluetooth;
-    private ImageButton ibtnLight, ibtnWireless, ibtnTheme, ibtnBluetooth;
     private EditText etTime;
     private DatePickerDialog datePickerDialog;
     private SeekBar sb_hand_mode;
@@ -66,9 +65,6 @@ public class SettingModuleFragment extends BaseFragment {
         btnLight = (Button) findViewById(R.id.btn_light);
         btnWireless = (Button) findViewById(R.id.btn_wireless);
         btnTheme = (Button) findViewById(R.id.btn_theme);
-        ibtnLight = (ImageButton) findViewById(R.id.ibtn_light);
-        ibtnWireless = (ImageButton) findViewById(R.id.ibtn_wireless);
-        ibtnTheme = (ImageButton) findViewById(R.id.ibtn_theme);
     }
 
     private void setListener() {
@@ -100,15 +96,7 @@ public class SettingModuleFragment extends BaseFragment {
             }
         });
 
-        ibtnWireless.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), WirelessActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        ibtnLight.setOnClickListener(new View.OnClickListener() {
+        btnLight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -186,14 +174,6 @@ public class SettingModuleFragment extends BaseFragment {
         });
 
         btnTheme.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ThemeActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        ibtnTheme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ThemeActivity.class);

@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.widget.EditText;
 
@@ -27,6 +28,7 @@ public class WirelessActivity extends BaseActivity {
     private Context context;
     private BluetoothAdapter bluetoothAdapter;
     private static int code = 1;
+    private WifiManager wifiManager;
 //    private WiperSwitch wsMobileNet;
 //    private String id, type, apn, curr;
 //    private WifiUtil wifiManager;
@@ -62,22 +64,7 @@ public class WirelessActivity extends BaseActivity {
                 if (checkStat) {
                     intentJump(App.getInstance(), BluetoothActivity.class);
                 } else {
-                    AlertDialog.Builder dialog=new AlertDialog.Builder(WirelessActivity.this);
-                    dialog.setMessage("确定关闭蓝牙吗？");
-                    dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (bluetoothAdapter!=null||bluetoothAdapter.isEnabled()){
-                                bluetoothAdapter.disable();
-                            }
-                        }
-                    });
-                    dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
 
-                        }
-                    });
                 }
             }
         });
