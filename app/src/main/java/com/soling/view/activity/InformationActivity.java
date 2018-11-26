@@ -70,6 +70,8 @@ public class InformationActivity extends BaseActivity implements OnClickListener
     Bitmap bitmap;
     PhotoHandleUtil photoHandleUtil = new PhotoHandleUtil();
     private ListView personListView;
+    private static final int TAKE_PHOTO = 1;
+    private static final int CROP_PHOTO = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,23 +150,22 @@ public class InformationActivity extends BaseActivity implements OnClickListener
         Bundle bundle = new Bundle();
         String[] phoneF = {phoneDto.getTelPhone(),phoneDto.getName()};
         long phoneF1 =  phoneDto.getId();
+        File outputImage = new File(Environment.getExternalStorageDirectory(),path + "head.jpg");
+        Uri imageUri = Uri.fromFile(outputImage);
         switch (view.getId()) {
+            case R.id.head_phone:
+                show(view);
+                break;
             case R.id.camera:
-                try {
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//开启相机应用程序并返回图片
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "head.jpg")));
-                    startActivityForResult(intent, 2);
-                } catch (Exception e) {
-                    Toast.makeText(this, "相机无法启动，请先开启相机使用权限", Toast.LENGTH_SHORT);
-                }
-                Toast.makeText(this, "拍照", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//开启相机应用程序并返回图片
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"/head.jpg")));
+                startActivityForResult(intent, 2);
                 dialog.dismiss();
                 break;
             case R.id.pic:
-                Intent intent = new Intent(Intent.ACTION_PICK, null);
-                intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                startActivityForResult(intent, 1);
-                Toast.makeText(this, "相册", Toast.LENGTH_SHORT).show();
+               Intent intent1 = new Intent(Intent.ACTION_PICK, null);
+                intent1.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                startActivityForResult(intent1, 1);
                 dialog.dismiss();
                 break;
             case R.id.cancel:
@@ -230,6 +231,7 @@ public class InformationActivity extends BaseActivity implements OnClickListener
                     File temp = new File(Environment.getExternalStorageDirectory() + "/head.jpg");
                     photoHandleUtil.cropPhoto(Uri.fromFile(temp));
                 }
+                break;
             case 3:
                 if (data != null) {
                     Bundle extras = data.getExtras();
@@ -239,6 +241,7 @@ public class InformationActivity extends BaseActivity implements OnClickListener
                         image.setImageBitmap(head);
                     }
                 }
+                break;
             default:
                 break;
         }

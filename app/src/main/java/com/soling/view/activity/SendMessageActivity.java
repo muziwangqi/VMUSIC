@@ -22,11 +22,12 @@ import static android.app.Activity.RESULT_OK;
 public class SendMessageActivity extends BaseActivity {
     private EditText contentEditText;
     private EditText phoneNumberEditText;
-    private IntentFilter sendFilter;
-    private SendStatusReceiver sendStatusReceiver;
+    private IntentFilter sendFilter = new IntentFilter();
+    private SendStatusReceiver sendStatusReceiver = new SendStatusReceiver();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        registerReceiver(sendStatusReceiver,sendFilter);
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.send_message);

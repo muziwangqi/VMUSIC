@@ -14,6 +14,7 @@ import com.soling.presenter.MainActivityInterface;
 import com.soling.utils.FloatButtonUtil;
 import com.soling.utils.PhoneUtil;
 import com.soling.utils.SMSUtil;
+import com.soling.view.activity.BluetoothDevicesListActivity;
 import com.soling.view.activity.InformationActivity;
 import com.soling.view.activity.MainActivity;
 import com.soling.view.adapter.ListAdapter;
@@ -62,6 +63,7 @@ public class PhoneFragment extends Fragment implements MainActivityInterface {
     private TextView tv;
     private ListView listView;
     WordsNavigation word;
+    TextView myName;
     //	private ImageView myHead;
 //	private TextView myName;
     @Override
@@ -90,6 +92,14 @@ public class PhoneFragment extends Fragment implements MainActivityInterface {
         tv = view.findViewById(R.id.tv);
         word = view.findViewById(R.id.words);
         listView =view.findViewById(R.id.person_list);
+        myName = view.findViewById(R.id.tvmy_name);
+        myName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(),BluetoothDevicesListActivity.class);
+                startActivity(intent);
+            }
+        });
 //        listView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
 //            @Override
 //            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
@@ -103,6 +113,7 @@ public class PhoneFragment extends Fragment implements MainActivityInterface {
                 listAdapter.updateListView(words,listView);
             }
         });
+
 
         personListView.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
@@ -228,5 +239,6 @@ public class PhoneFragment extends Fragment implements MainActivityInterface {
 
         }
     }
+
 
 }
