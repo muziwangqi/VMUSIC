@@ -29,11 +29,11 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
 
     private WiperSwitch wiperSwitch1;// 摇一摇
     private WiperSwitch wiperSwitch2;// 线控
-    private AlertDialog alertDialog;// 对话框
+    private AlertDialog alertDialog;
     private TimePickerDialog timePickerDialog;
     private Context context;
     private OnShakeListener onShakeListener;
-    private ShakeListener shakeListener;// 震动监听
+    private ShakeListener shakeListener;
     private PlayerFragment playerFragment = new PlayerFragment();
     private PlayerService playerService;
 
@@ -104,7 +104,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
 
         // 摇一摇切歌
         shakeListener = new ShakeListener(context);
-        shakeListener.stop();
+//        shakeListener.stop();
         shakeListener.setOnShakeListener(new OnShakeListener() {
 
             public void onShake() {
@@ -120,8 +120,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        wiperSwitch1 = (WiperSwitch) view
-                .findViewById(R.id.id_kaiguan_shakesong);
+        wiperSwitch1 = (WiperSwitch) view.findViewById(R.id.id_kaiguan_shakesong);
         wiperSwitch1.setChecked(false);// 初始冠
         wiperSwitch1.setOnChangedListener(new IOnChangedListener() {
 
@@ -137,8 +136,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
         });
 
         // 线控切歌
-        wiperSwitch2 = (WiperSwitch) view
-                .findViewById(R.id.id_kaiguan_linecontrol);// main.xml获取setting.xml
+        /*wiperSwitch2 = (WiperSwitch) view.findViewById(R.id.id_kaiguan_linecontrol);// main.xml获取setting.xml
         wiperSwitch2.setChecked(false);// 初始冠
         wiperSwitch2.setOnChangedListener(new IOnChangedListener() {
 
@@ -154,7 +152,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
                     context.startService(intent);
                 }
             }
-        });
+        });*/
 
         // 关于V乐
         view.findViewById(R.id.id_ib_about).setOnClickListener(
@@ -162,9 +160,8 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
                     public void onClick(View arg0) {
                         Intent intent = new Intent(context, AboutActivity.class);
                         startActivity(intent);
-                    }
-                });
-
+             }
+        });
 
         //help
         view.findViewById(R.id.id_ib_help).setOnClickListener(

@@ -10,6 +10,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.soling.App;
@@ -24,11 +26,12 @@ import java.util.List;
 
 public class WirelessActivity extends BaseActivity {
 
-    private WiperSwitch wsWifiNet, wsBluetooth;
+//    private WiperSwitch wsWifiNet, wsBluetooth;
     private Context context;
     private BluetoothAdapter bluetoothAdapter;
     private static int code = 1;
     private WifiManager wifiManager;
+    private Button btn_wifinet,btn_bluetoothnet;
 //    private WiperSwitch wsMobileNet;
 //    private String id, type, apn, curr;
 //    private WifiUtil wifiManager;
@@ -51,35 +54,49 @@ public class WirelessActivity extends BaseActivity {
     @Override
     public void initViews() {
         //wsMobileNet = findViewById(R.id.ws_mobilenet);
-        wsWifiNet = findViewById(R.id.ws_wifinet);
-        wsBluetooth = findViewById(R.id.ws_bluetooth);
+//        wsWifiNet = findViewById(R.id.ws_wifinet);
+//        wsBluetooth = findViewById(R.id.ws_bluetooth);
+        btn_wifinet=findViewById(R.id.btn_wifinet);
+        btn_bluetoothnet=findViewById(R.id.btn_bluetoothnet);
     }
 
     private void getBluetooth() {
-        wsBluetooth.setChecked(false);
-        wsBluetooth.setOnChangedListener(new WiperSwitch.IOnChangedListener() {
+//        wsBluetooth.setChecked(false);
+//        wsBluetooth.setOnChangedListener(new WiperSwitch.IOnChangedListener() {
+//            @Override
+//            public void onChange(WiperSwitch wiperSwitch, boolean checkStat) {
+////                shortToast("hhhhhhhhhhh");
+//                if (checkStat) {
+//                    intentJump(App.getInstance(), BluetoothActivity.class);
+//                } else {
+//
+//                }
+//            }
+//        });
+        btn_bluetoothnet.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onChange(WiperSwitch wiperSwitch, boolean checkStat) {
-//                shortToast("hhhhhhhhhhh");
-                if (checkStat) {
-                    intentJump(App.getInstance(), BluetoothActivity.class);
-                } else {
-
-                }
+            public void onClick(View v) {
+                intentJump(App.getInstance(),BluetoothActivity.class);
             }
         });
     }
 
     private void getWifiNet() {
-        wsWifiNet.setChecked(false);
-        wsWifiNet.setOnChangedListener(new WiperSwitch.IOnChangedListener() {
+//        wsWifiNet.setChecked(false);
+//        wsWifiNet.setOnChangedListener(new WiperSwitch.IOnChangedListener() {
+//            @Override
+//            public void onChange(WiperSwitch wiperSwitch, boolean checkStat) {
+//                if (checkStat) {
+//                    intentJump(App.getInstance(), WifiActivity.class);
+//                } else {
+//
+//                }
+//            }
+//        });
+        btn_wifinet.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onChange(WiperSwitch wiperSwitch, boolean checkStat) {
-                if (checkStat) {
-                    intentJump(App.getInstance(), WifiActivity.class);
-                } else {
-
-                }
+            public void onClick(View v) {
+                intentJump(App.getInstance(), WifiActivity.class);
             }
         });
     }

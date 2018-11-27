@@ -73,6 +73,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
         fragments.add(new PhoneFragment());
         fragments.add(new PlayerFragment());
         fragments.add(new SettingModuleFragment());
+//        fragments.add(new SettingFragment());
 
         viewPager.setAdapter(new ScollAdapter(getSupportFragmentManager(), fragments));
         viewPager.setCurrentItem(1);

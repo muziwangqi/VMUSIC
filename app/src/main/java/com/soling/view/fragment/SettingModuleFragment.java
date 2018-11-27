@@ -2,6 +2,7 @@ package com.soling.view.fragment;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,13 +20,17 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import com.soling.R;
+import com.soling.service.player.PlayerService;
 import com.soling.utils.LightDialogUtil;
+import com.soling.view.activity.BluetoothActivity;
 import com.soling.view.activity.ThemeActivity;
+import com.soling.view.activity.WifiActivity;
 import com.soling.view.activity.WirelessActivity;
+import com.soling.view.adapter.ShakeListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -42,10 +47,28 @@ public class SettingModuleFragment extends BaseFragment {
     private CheckBox cb_auto_mode;
     private int MAX_BRIGHTNESS = 255;
     private int MIN_BRIGHTNESS = 30;
+    private ShakeListener.OnShakeListener onShakeListener;
+    private ShakeListener shakeListener;// 震动监听
+    private PlayerFragment playerFragment = new PlayerFragment();
+    private PlayerService playerService;
+    private Context context;
+    private Button btn_wifinet1, btn_bluetoothnet1;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        context = getActivity();
+        shakeListener = new ShakeListener(context);
+//        shakeListener.stop();
+        shakeListener.setOnShakeListener(new ShakeListener.OnShakeListener() {
+            public void onShake() {
+                // qiege
+                Intent service = new Intent(context, PlayerService.class);
+                service.setAction(PlayerService.ACTION_PLAY_NEXT);
+                context.startService(service);
+                Toast.makeText(context, "sqiege", Toast.LENGTH_SHORT).show();
+            }
+        });
         return inflater.inflate(R.layout.fragment_settingmodule, container, false);
     }
 
@@ -65,9 +88,28 @@ public class SettingModuleFragment extends BaseFragment {
         btnLight = (Button) findViewById(R.id.btn_light);
         btnWireless = (Button) findViewById(R.id.btn_wireless);
         btnTheme = (Button) findViewById(R.id.btn_theme);
+        btn_wifinet1= (Button) findViewById(R.id.btn_wifinet1);
+        btn_bluetoothnet1= (Button) findViewById(R.id.btn_bluetoothnet1);
     }
 
     private void setListener() {
+
+        btn_wifinet1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(),WifiActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btn_bluetoothnet1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(),BluetoothActivity.class);
+                startActivity(intent);
+            }
+        });
+
         etTime.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
