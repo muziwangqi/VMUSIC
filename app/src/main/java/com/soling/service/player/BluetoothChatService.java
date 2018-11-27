@@ -59,8 +59,8 @@ public class BluetoothChatService {
             }
         }
         if (mConnectThread != null) {
-            mConnectedThread.cancle();
-            mConnectedThread = null;
+            mConnectThread.cancel();
+            mConnectThread = null;
         }
         if (mAcceptThread == null) {
             mAcceptThread = new AcceptThread();

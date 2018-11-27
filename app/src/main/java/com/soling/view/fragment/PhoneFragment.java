@@ -17,6 +17,7 @@ import com.soling.utils.SMSUtil;
 import com.soling.view.activity.BluetoothDevicesListActivity;
 import com.soling.view.activity.InformationActivity;
 import com.soling.view.activity.MainActivity;
+import com.soling.view.activity.TestActivity;
 import com.soling.view.adapter.ListAdapter;
 import com.soling.view.adapter.PhoneAdapter;
 import com.soling.view.adapter.PhoneCallLogAdapter;

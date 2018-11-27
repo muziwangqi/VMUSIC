@@ -63,6 +63,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".view.activity.TestActivity"/>
         <activity android:name=".view.activity.BluetoothDevicesListActivity"/>
         <activity android:name=".view.activity.BluetoothChatActivity"/>
         <activity android:name=".view.activity.MainActivity" />

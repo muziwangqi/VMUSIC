@@ -5,7 +5,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/search_bluetooth_devices">
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,12 +15,15 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="300dp"
+        android:orientation="vertical"
+        android:layout_below="@+id/search_bluetooth_devices"
+        android:id="@+id/connected_devices">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="已配对蓝牙设备"/>
+        android:text="已配对蓝牙设备"
+        android:id="@+id/paired_devices_textview"/>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,12 +32,14 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="300dp"
+        android:orientation="vertical"
+        android:layout_below="@+id/connected_devices">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="未配对蓝牙设备"/>
+        android:text="可用蓝牙设备"
+        android:id="@+id/new_devices_textview"/>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

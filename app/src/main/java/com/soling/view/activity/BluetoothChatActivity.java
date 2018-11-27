@@ -59,13 +59,14 @@ public class BluetoothChatActivity extends Activity {
         if (D) {
             Log.e(TAG, "+++ ON CREATE +++");
         }
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.chat_bluetooth);
         mTitle = findViewById(R.id.bluetooth_name);
+        String address = (String) getIntent().getExtras().get("device_address");
+        mTitle.setText(address);
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null) {
-            Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_LONG).show();
-            ;
+            Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_LONG).show();            ;
             finish();
             return;
         }
@@ -102,14 +103,11 @@ public class BluetoothChatActivity extends Activity {
 
     private void setupChat() {
         Log.d(TAG, "setupChat");
-
         mConversationArrayAdapter = new ArrayAdapter<String>(this, R.layout.chat_get);
         mConversationView = findViewById(R.id.bluetooth_chat_list);
         mConversationView.setAdapter(mConversationArrayAdapter);
-
         mOutEditText = findViewById(R.id.bluetooth_chat_content);
         mOutEditText.setOnEditorActionListener(mWriteListener);
-
         mSendButton = findViewById(R.id.bluetooth__bottom_sendbutton);
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,6 +115,7 @@ public class BluetoothChatActivity extends Activity {
                 TextView view = findViewById(R.id.bluetooth_chat_content);
                 String message = view.getText().toString();
                 sendMessage(message);
+                view.setText("");
             }
         });
 
@@ -152,18 +151,15 @@ public class BluetoothChatActivity extends Activity {
 
     private void sendMessage(String message) {
         if (mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {
-            Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
             return;
         }
     if(message.length()>0){
         byte[] send = message.getBytes();
         mChatService.write(send);
-
         mOutStringBuffer.setLength(0);
         mOutEditText.setText(mOutStringBuffer);
     }
-
-
 
         }
 
@@ -245,6 +241,4 @@ public class BluetoothChatActivity extends Activity {
                 }
         }
     }
-
-
 }

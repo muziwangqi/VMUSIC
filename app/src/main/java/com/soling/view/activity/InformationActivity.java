@@ -11,6 +11,7 @@ import com.soling.model.User;
 import com.soling.R;
 import com.soling.utils.PhoneUtil;
 import com.soling.utils.PhotoHandleUtil;
+import com.soling.utils.db.RealPathFromUriUtils;
 import com.soling.view.adapter.PhoneCallLogAdapter;
 
 
@@ -72,6 +73,7 @@ public class InformationActivity extends BaseActivity implements OnClickListener
     private ListView personListView;
     private static final int TAKE_PHOTO = 1;
     private static final int CROP_PHOTO = 2;
+    Uri imageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +108,7 @@ public class InformationActivity extends BaseActivity implements OnClickListener
         setContentView(R.layout.myinfo);
         //view = findViewById(R.drawable.l);
         image = findViewById(R.id.head_phone);
-        Bitmap bitmap = BitmapFactory.decodeFile(path + "head.jpg");
+        Bitmap bitmap = BitmapFactory.decodeFile("head.jpg");
         if (bitmap != null) {
             Drawable drawable = new BitmapDrawable(bitmap);
             image.setImageDrawable(drawable);
@@ -121,8 +123,7 @@ public class InformationActivity extends BaseActivity implements OnClickListener
         camera = inflate.findViewById(R.id.camera);
         pic = inflate.findViewById(R.id.pic);
         cancel = inflate.findViewById(R.id.cancel);
-        camera.setOnClickListener(this);
-        pic.setOnClickListener(this);
+
         cancel.setOnClickListener(this);
         dialog = new Dialog(this);
         dialog.setContentView(inflate);
@@ -132,6 +133,43 @@ public class InformationActivity extends BaseActivity implements OnClickListener
         lp.y = 20;
         dialogWindow.setAttributes(lp);
         dialog.show();
+        final File outputImage = new File(Environment.getExternalStorageDirectory(),"head.jpg");
+        imageUri = Uri.fromFile(outputImage);
+        camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    if(outputImage.exists()){
+                        outputImage.delete();
+                    }
+                    outputImage.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
+                startActivityForResult(intent,TAKE_PHOTO);//启动相机程序
+                dialog.dismiss();
+            }
+        });
+        pic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    if(outputImage.exists()){
+                        outputImage.delete();
+                    }
+                    outputImage.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Intent intent = new Intent(Intent.ACTION_PICK,null);
+                intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"image/*");
+                intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
+                startActivityForResult(intent,CROP_PHOTO);
+                dialog.dismiss();
+            }
+        });
     }
 
 
@@ -150,23 +188,9 @@ public class InformationActivity extends BaseActivity implements OnClickListener
         Bundle bundle = new Bundle();
         String[] phoneF = {phoneDto.getTelPhone(),phoneDto.getName()};
         long phoneF1 =  phoneDto.getId();
-        File outputImage = new File(Environment.getExternalStorageDirectory(),path + "head.jpg");
-        Uri imageUri = Uri.fromFile(outputImage);
         switch (view.getId()) {
             case R.id.head_phone:
                 show(view);
-                break;
-            case R.id.camera:
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//开启相机应用程序并返回图片
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"/head.jpg")));
-                startActivityForResult(intent, 2);
-                dialog.dismiss();
-                break;
-            case R.id.pic:
-               Intent intent1 = new Intent(Intent.ACTION_PICK, null);
-                intent1.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                startActivityForResult(intent1, 1);
-                dialog.dismiss();
                 break;
             case R.id.cancel:
                 Toast.makeText(this, "取消", Toast.LENGTH_SHORT).show();
@@ -219,33 +243,28 @@ public class InformationActivity extends BaseActivity implements OnClickListener
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO Auto-generated method stub
-        switch (resultCode) {
-            case 1:
-                if (resultCode == RESULT_OK) {
-                    photoHandleUtil.cropPhoto(data.getData());
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode){
+            case TAKE_PHOTO:
+                if(resultCode == RESULT_OK){
+                    Intent intent = new Intent("com.android.camera.action.CROP");
+                    intent.setDataAndType(imageUri,"image/*");
+                    intent.putExtra("scale", true);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
+                    startActivityForResult(intent,CROP_PHOTO);//启动裁剪程序
                 }
                 break;
-            case 2:
-                if (resultCode == RESULT_OK) {
-                    File temp = new File(Environment.getExternalStorageDirectory() + "/head.jpg");
-                    photoHandleUtil.cropPhoto(Uri.fromFile(temp));
-                }
-                break;
-            case 3:
-                if (data != null) {
-                    Bundle extras = data.getExtras();
-                    head = extras.getParcelable("data");
-                    if (head != null) {
-                        photoHandleUtil.setPicToView(head);
-                        image.setImageBitmap(head);
+            case CROP_PHOTO:
+                if(resultCode == RESULT_OK){
+                    try {
+                        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
+                        image.setImageBitmap(bitmap);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
                     }
                 }
                 break;
-            default:
-                break;
         }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     public void refreshCallLog(String phone){
