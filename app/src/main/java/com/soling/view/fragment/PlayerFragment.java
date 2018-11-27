@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,8 +21,10 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -42,6 +45,7 @@ import com.soling.service.player.IPlayer;
 import com.soling.utils.BitmapUtil;
 import com.soling.utils.MusicFileManager;
 import com.soling.utils.StringUtil;
+import com.soling.view.activity.MainActivity;
 import com.soling.view.activity.SearchMusicActivity;
 import com.soling.view.adapter.MediaButtonReceiver;
 import com.soling.view.adapter.MusicAdapter;
@@ -66,19 +70,23 @@ public class PlayerFragment extends BaseFragment implements PlayerContract.View,
     private ImageButton ibList;
     private ImageButton ibVolume;
     private ImageButton ibShare;
-    private ImageButton ibSearch;
     private TextView tvName;
     private TextView tvArtist;
+    private TextView tvNameLyric;
+    private TextView tvArtistLyric;
     private TextView tvCurrentPosition;
     private TextView tvDuration;
     private AppCompatSeekBar sbMusic;
     private AppCompatSeekBar sbVolume;
     private RelativeLayout rlPlay;
+    private FrameLayout flCover;
+    private LinearLayout llLyric;
     private LyricView lyricView;
     private ViewPager vpMusicList;
     private List<MusicListFragment> musicListFragments;
     private ImageView ivAlbumCover;
     private MusicAdapter likeAdapter;
+    private LinearLayout ll_volume;
 
     private Handler handler;
     private Runnable taskHideSBVolume;
@@ -123,9 +131,10 @@ public class PlayerFragment extends BaseFragment implements PlayerContract.View,
         ibLike = (ImageButton) findViewById(R.id.ib_like);
         ibVolume = (ImageButton) findViewById(R.id.ib_volume);
         ibShare = (ImageButton) findViewById(R.id.ib_share);
-        ibSearch = (ImageButton) findViewById(R.id.ib_search);
         tvName = (TextView) findViewById(R.id.tv_name);
+        tvNameLyric = (TextView) findViewById(R.id.tv_name_lyric);
         tvArtist = (TextView) findViewById(R.id.tv_artist);
+        tvArtistLyric = (TextView) findViewById(R.id.tv_artist_lyric);
         tvCurrentPosition = (TextView) findViewById(R.id.tv_current_position);
         tvDuration = (TextView) findViewById(R.id.tv_duration);
         ivAlbumCover = (ImageView) findViewById(R.id.iv_album_cover);
@@ -133,6 +142,9 @@ public class PlayerFragment extends BaseFragment implements PlayerContract.View,
         sbMusic = (AppCompatSeekBar) findViewById(R.id.seek_bar);
         sbVolume = (AppCompatSeekBar) findViewById(R.id.sb_volume);
         rlPlay = (RelativeLayout) findViewById(R.id.rl_play);
+        flCover = (FrameLayout) findViewById(R.id.fl_cover);
+        llLyric = (LinearLayout) findViewById(R.id.ll_lyric);
+        ll_volume = (LinearLayout) findViewById(R.id.ll_volume);
         vpMusicList = (ViewPager) findViewById(R.id.vp_music_list);
     }
 
@@ -143,7 +155,7 @@ public class PlayerFragment extends BaseFragment implements PlayerContract.View,
         taskHideSBVolume = new Runnable() {
             @Override
             public void run() {
-                PlayerFragment.this.sbVolume.setVisibility(View.INVISIBLE);
+                PlayerFragment.this.ll_volume.setVisibility(View.INVISIBLE);
             }
         };
         taskRefreshLyric = new Runnable() {
@@ -171,15 +183,18 @@ public class PlayerFragment extends BaseFragment implements PlayerContract.View,
         ivAlbumCover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ivAlbumCover.setVisibility(View.INVISIBLE);
-                lyricView.setVisibility(View.VISIBLE);
+                flCover.setVisibility(View.INVISIBLE);
+                llLyric.setVisibility(View.VISIBLE);
+                ((MainActivity)getActivity()).setBackground(getResources().getDrawable(R.drawable.player_lyrics_bg));
             }
         });
         lyricView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lyricView.setVisibility(View.INVISIBLE);
-                ivAlbumCover.setVisibility(View.VISIBLE);
+                llLyric.setVisibility(View.INVISIBLE);
+                flCover.setVisibility(View.VISIBLE);
+                rlPlay.setBackgroundColor(Color.parseColor("#00000000"));
+                ((MainActivity)getActivity()).setBackground(getResources().getDrawable(R.drawable.main_music_bg));
             }
         });
         sbMusic.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -191,12 +206,14 @@ public class PlayerFragment extends BaseFragment implements PlayerContract.View,
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
                 isSeeking = true;
+                sbMusic.setThumb(getResources().getDrawable(R.drawable.player_slider_p));
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 presenter.seekTo(seekBar.getProgress());
                 isSeeking = false;
+                sbMusic.setThumb(getResources().getDrawable(R.drawable.player_slider));
             }
         });
 
@@ -217,6 +234,17 @@ public class PlayerFragment extends BaseFragment implements PlayerContract.View,
                 handler.postDelayed(PlayerFragment.this.taskHideSBVolume, PlayerFragment.DELAY_HIDE_SB_VOLUME);
             }
         });
+        lyricView.setOnHorizontalSwipListener(new LyricView.OnHorizontalSlipListener() {
+            @Override
+            public void onSlipLeft() {
+                Log.d(TAG, "onSlipLeft: ");
+            }
+
+            @Override
+            public void onSlipRight() {
+                Log.d(TAG, "onSlipRight: ");
+            }
+        });
         ibPlay.setOnClickListener(this);
         ibPlayNext.setOnClickListener(this);
         ibPlayLast.setOnClickListener(this);
@@ -225,7 +253,6 @@ public class PlayerFragment extends BaseFragment implements PlayerContract.View,
         ibLike.setOnClickListener(this);
         ibVolume.setOnClickListener(this);
         ibShare.setOnClickListener(this);
-        ibSearch.setOnClickListener(this);
     }
 
     private void initPlayer() {
@@ -243,7 +270,6 @@ public class PlayerFragment extends BaseFragment implements PlayerContract.View,
                                 presenter.pause();
                             }
                             refreshView();
-                            initMusicListFragments();
                             startRefreshLyric();
                         }
                     });
@@ -251,7 +277,6 @@ public class PlayerFragment extends BaseFragment implements PlayerContract.View,
             });
         } else {
             refreshView();
-            initMusicListFragments();
             startRefreshLyric();
         }
     }
@@ -318,7 +343,9 @@ public class PlayerFragment extends BaseFragment implements PlayerContract.View,
         ivAlbumCover.setImageDrawable(drawable);
         if (music != null) {
             tvName.setText(music.getName());
+            tvNameLyric.setText(music.getName());
             tvArtist.setText("- " + music.getArtist() + " -");
+            tvArtistLyric.setText("- " + music.getArtist() + " -");
             tvDuration.setText(StringUtil.msToString(music.getDuration()));
             sbMusic.setMax(music.getDuration());
             if (presenter.isPlaying()) {
@@ -335,7 +362,7 @@ public class PlayerFragment extends BaseFragment implements PlayerContract.View,
 
     @Override
     public void refreshPlayState() {
-        ibPlay.setImageResource(presenter.isPlaying() ? R.drawable.player_pause : R.drawable.player_play);
+        ibPlay.setImageResource(presenter.isPlaying() ? R.drawable.selector_ib_player_pause : R.drawable.selector_ib_player_play);
     }
 
     @Override
@@ -393,13 +420,13 @@ public class PlayerFragment extends BaseFragment implements PlayerContract.View,
         int imageResource = 0;
         switch (model) {
             case SHUFFLE:
-                imageResource = R.drawable.ic_shuffle;
+                imageResource = R.drawable.selector_ib_player_shuffle;
                 break;
             case LOOP_SINGLE:
-                imageResource = R.drawable.ic_repeat_once;
+                imageResource = R.drawable.selector_ib_player_repeat_one;
                 break;
             case LOOP_ALL:
-                imageResource = R.drawable.player_repeat;
+                imageResource = R.drawable.selector_ib_player_repeat;
                 break;
         }
         ibChangeModel.setImageResource(imageResource);
@@ -410,7 +437,7 @@ public class PlayerFragment extends BaseFragment implements PlayerContract.View,
         int volume = presenter.getVolume();
         sbVolume.setProgress(volume);
         sbVolume.setMax(maxVolume);
-        sbVolume.setVisibility(View.VISIBLE);
+        ll_volume.setVisibility(View.VISIBLE);
         handler.postDelayed(taskHideSBVolume, DELAY_HIDE_SB_VOLUME);
     }
 
@@ -434,6 +461,9 @@ public class PlayerFragment extends BaseFragment implements PlayerContract.View,
                 presenter.changeModel();
                 break;
             case R.id.ib_list:
+                if (musicListFragments == null) {
+                    initMusicListFragments();
+                }
                 if (vpMusicList.getVisibility() == View.VISIBLE) {
                     vpMusicList.setVisibility(View.INVISIBLE);
                 } else {
@@ -452,10 +482,6 @@ public class PlayerFragment extends BaseFragment implements PlayerContract.View,
                     Log.d(TAG, "onClick: " + " shareMusicListener");
                     shareMusicListener.shareMusic(presenter.getPlayingMusic());
                 }
-                break;
-            case R.id.ib_search:
-                Intent intent = new Intent(App.getInstance(), SearchMusicActivity.class);
-                startActivity(intent);
                 break;
         }
     }

@@ -252,7 +252,12 @@ public class Player implements IPlayer {
         if (music == null) return;
         Bitmap cover = loadCoverFromLocal(music);
         if (cover == null) {
-            cover = loadCoverFromApi(music);
+            Bitmap apiCover = loadCoverFromApi(music);
+            if (apiCover != null) {
+                cover = BitmapUtil.crop(apiCover, 680, 680);
+                apiCover.recycle();
+                System.gc();
+            }
         }
         if (cover != null) {
             notifyCoverLoaded(cover);

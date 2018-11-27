@@ -64,6 +64,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             startService(intent);
             app.setPlayerService(intent);
         }
+
     }
 
     public void initViews() {

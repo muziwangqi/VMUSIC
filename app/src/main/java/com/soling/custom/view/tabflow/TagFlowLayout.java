@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.soling.R;
+
 public class TagFlowLayout extends FlowLayout {
 
     private OnItemClickListener onItemClickListener;
@@ -24,8 +26,10 @@ public class TagFlowLayout extends FlowLayout {
         for (int i = 0; i < adapter.getCount(); i++) {
             View view = adapter.getView(this, i, adapter.getItem(i));
             final TagView viewContainer = new TagView(getContext());
-            viewContainer.setLayoutParams(view.getLayoutParams());
-            view.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+            LayoutParams layoutParams = view.getLayoutParams();
+            layoutParams.height = 90;
+            viewContainer.setLayoutParams(layoutParams);
+            view.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
             viewContainer.addView(view);
             addView(viewContainer);
             view.setClickable(false);
@@ -38,6 +42,7 @@ public class TagFlowLayout extends FlowLayout {
                     }
                 }
             });
+            viewContainer.setBackgroundResource(R.drawable.selector_tabflow_music_search_hot);
         }
     }
 

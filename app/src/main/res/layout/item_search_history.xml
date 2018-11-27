@@ -3,19 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:layout_marginTop="11dp"
+    android:layout_marginBottom="14dp">
 
     <TextView
         android:id="@+id/tv_record"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:textColor="#282828"
+        android:textSize="14sp"/>
 
     <ImageButton
         android:id="@+id/ib_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_close_black"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="6dp"
+        android:src="@drawable/selector_ib_music_delete"
         android:background="#00000000"/>
 
 </LinearLayout>
