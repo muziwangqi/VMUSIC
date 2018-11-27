@@ -53,6 +53,7 @@ public class FlowLayout extends ViewGroup {
                 View cView = getChildAt(i);
                 measureChild(cView, widthMeasureSpec, heightMeasureSpec);
                 MarginLayoutParams mp = (MarginLayoutParams) cView.getLayoutParams();
+                Log.d(TAG, "onMeasure: " + mp.leftMargin + "," + mp.rightMargin);
                 int cWidth = cView.getMeasuredWidth() + mp.leftMargin + mp.rightMargin;
                 int cHeight = cView.getMeasuredHeight() + mp.topMargin + mp.bottomMargin;
                 Log.d(TAG, "onMeasure: cWidth" + cWidth);
@@ -115,6 +116,8 @@ public class FlowLayout extends ViewGroup {
 
     @Override
     public LayoutParams generateLayoutParams(AttributeSet attrs) {
-        return new MarginLayoutParams(getContext(), attrs);
+        MarginLayoutParams mp = new MarginLayoutParams(getContext(), attrs);
+        mp.setMargins(0, 0, 24, 28);
+        return mp;
     }
 }

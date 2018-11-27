@@ -16,6 +16,12 @@
             android:layout_height="wrap_content"
             android:text="蓝牙"
             android:textSize="24sp" />
+        <!--Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_bluetooth_search"
+            android:layout_toRightOf="@id/tv_left"
+            android:text="search"/-->
 
         <com.soling.view.adapter.WiperSwitch
             android:id="@+id/ws_bttop"
@@ -25,10 +31,31 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_five"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:layout_below="@id/rl_three">
+
+        <TextView
+            android:id="@+id/tv_opensearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="开放检测"
+            android:textSize="20sp" />
+
+        <com.soling.view.adapter.WiperSwitch
+            android:id="@+id/ws_opensearch"
+            android:layout_width="75dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/rl_four"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@id/rl_three"
+        android:layout_below="@id/rl_five"
         android:gravity="center_vertical">
 
         <TextView
@@ -54,34 +81,42 @@
             android:textSize="14sp" />
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tv_havamatched"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="240dp"
         android:layout_below="@id/rl_four"
-        android:background="#CCCCCC"
-        android:text="已配对设备"
-        android:textSize="18sp" />
+        android:id="@+id/rl_havamatched">
+        <TextView
+            android:id="@+id/tv_havamatched"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
-    <ListView
-        android:id="@+id/lv_havamatched"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_havamatched"></ListView>
+            android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/tv_connectdevices"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/lv_havamatched"
-        android:background="#CCCCCC"
-        android:text="可用设备"
-        android:textSize="18sp" />
+        <ListView
+            android:id="@+id/lv_havamatched"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_havamatched"></ListView>
+    </RelativeLayout>
 
-    <ListView
-        android:id="@+id/lv_connectdevices"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_connectdevices"></ListView>
+        android:layout_height="240dp"
+        android:layout_below="@id/rl_havamatched">
+        <TextView
+            android:id="@+id/tv_connectdevices"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp" />
+
+        <ListView
+            android:id="@+id/lv_connectdevices"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_connectdevices"></ListView>
+    </RelativeLayout>
+
+
 
 </RelativeLayout>

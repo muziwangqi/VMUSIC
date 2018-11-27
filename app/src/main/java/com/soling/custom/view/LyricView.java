@@ -24,8 +24,10 @@ import com.soling.model.LyricLine;
 public class LyricView extends View {
 
     private static final String TAG = "LyricView";
-    private static final int MARGIN_BOTTOM = 32; // dp
-    private static final int TEXT_SIZE = 16;    // sp
+    private static final int MARGIN_BOTTOM = 36; // dp
+    private static final int TEXT_SIZE = 12;    // sp
+    private static final String CURRENT_LINE_COLOR = "#BD94F5";
+    private static final String OTHER_LINE_COLOR = "#2C2C2C";
 
     private List<LyricLine> lyric;
     private List<StaticLayout> staticLayouts;
@@ -36,6 +38,8 @@ public class LyricView extends View {
     private Timer touchEndTimer = new Timer();
     private float lastY = 0;
     private float lastX = 0;
+
+    private OnHorizontalSlipListener onHorizontalSwipListener;
 
     public LyricView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -64,10 +68,10 @@ public class LyricView extends View {
             }
             canvas.save();
             if (i == curLine) {
-                textPaint.setColor(Color.BLACK);
+                textPaint.setColor(Color.parseColor(CURRENT_LINE_COLOR));
             }
             else {
-                textPaint.setColor(Color.GRAY);
+                textPaint.setColor(Color.parseColor(OTHER_LINE_COLOR));
             }
             drawText(canvas, staticLayouts.get(i), y);
             canvas.restore();
@@ -145,9 +149,11 @@ public class LyricView extends View {
                 break;
             case MotionEvent.ACTION_MOVE:
                 float y = event.getY();
+                float x = event.getX();
                 Log.d(TAG, "onTouchEvent: " + y);
                 float offsetY = y - lastY;
-                if (Math.abs(offsetY) > 0) {
+                float offsetX = x - lastX;
+                if (Math.abs(offsetY) > 10) {
                     isTouching = true;
                     stopAutoScroll = true;
                     lastY = y;
@@ -179,6 +185,15 @@ public class LyricView extends View {
         }
         return true;
 
+    }
+
+    public void setOnHorizontalSwipListener(OnHorizontalSlipListener onHorizontalSwipListener) {
+        this.onHorizontalSwipListener = onHorizontalSwipListener;
+    }
+
+    public interface OnHorizontalSlipListener {
+        void onSlipLeft();
+        void onSlipRight();
     }
 
 }

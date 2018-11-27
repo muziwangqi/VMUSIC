@@ -2,8 +2,10 @@ package com.soling.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import android.util.Log;
 
 import com.soling.App;
 
@@ -16,6 +18,7 @@ import java.util.UUID;
 
 public class BitmapUtil {
 
+    private static final String TAG = "BitmapUtil";
     private static final String DIR_COVER = "cover";
 
     public static RoundedBitmapDrawable roundedBitmapDrawable(Bitmap bitmap) {
@@ -62,6 +65,24 @@ public class BitmapUtil {
             e.printStackTrace();
         }
         return bitmap;
+    }
+
+    // 把图片按照crop的方式缩小或者放大到指定尺寸
+    public static Bitmap crop(Bitmap bitmap, float width, float height) {
+        int oldWidth = bitmap.getWidth();
+        int oldHeight = bitmap.getHeight();
+        float scaleWidth = width / oldWidth;
+        float scaleHeight = height / oldHeight;
+        float scale = 1;
+        if (scaleWidth < 1 && scaleHeight < 1) {
+            scale = Math.min(scaleWidth, scaleHeight);
+        }
+        else {
+            scale = Math.max(scaleWidth, scaleHeight);
+        }
+        Matrix matrix = new Matrix();
+        matrix.postScale(scale, scale);
+        return Bitmap.createBitmap(bitmap, 0, 0, oldWidth, oldHeight, matrix, true);
     }
 
 }

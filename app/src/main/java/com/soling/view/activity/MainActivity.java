@@ -2,6 +2,7 @@ package com.soling.view.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import android.graphics.Color;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import android.widget.TextView;
@@ -38,6 +40,10 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     private List<android.support.v4.app.Fragment> fragments = new ArrayList<android.support.v4.app.Fragment>();
     private TextView tvPhone, tvMusic, tvSetting;
     private ImageButton addMenu;
+    private ImageButton ibSearch;
+    private ImageView ivPhone;
+    private ImageView ivMusic;
+    private ImageView ivSetting;
     private PhoneFragment phoneFragment;
     private PlayerFragment playerFragment;
     private SettingFragment settingFragment;
@@ -67,12 +73,16 @@ public class MainActivity extends BaseActivity implements OnClickListener {
         tvPhone = (TextView) findViewById(R.id.id_tv_phone);
         tvMusic = (TextView) findViewById(R.id.id_tv_music);
         tvSetting = (TextView) findViewById(R.id.id_tv_setting);
+        ivPhone = findViewById(R.id.iv_phone);
+        ivMusic = findViewById(R.id.iv_music);
+        ivSetting = findViewById(R.id.iv_setting);
         tvPhone.setOnClickListener(this);
         tvMusic.setOnClickListener(this);
         tvSetting.setOnClickListener(this);
         fragments.add(new PhoneFragment());
         fragments.add(new PlayerFragment());
         fragments.add(new SettingModuleFragment());
+//        fragments.add(new SettingFragment());
 
         viewPager.setAdapter(new ScollAdapter(getSupportFragmentManager(), fragments));
         viewPager.setCurrentItem(1);
@@ -87,6 +97,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
         }
 
         rlMain = findViewById(R.id.rl_main);
+        ibSearch = findViewById(R.id.ib_search);
+        ibSearch.setOnClickListener(this);
 
         tvPhone.setOnClickListener(this);
         tvMusic.setOnClickListener(this);
@@ -112,21 +124,22 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
             @Override
             public void onPageSelected(int i) {
-                if (1 == i) {
-                    rlMain.setBackground(getResources().getDrawable(R.drawable.main_music_bg));
-                } else {
-                    rlMain.setBackground(null);
-                    switch (i) {
-                        case 0:
-                            rlMain.setBackground(null);
-                            break;
-                        case 1:
-                            rlMain.setBackground(getResources().getDrawable(R.drawable.main_music_bg));
-                            break;
-                        case 2:
-                            rlMain.setBackground(null);
-                            break;
-                    }
+                ivPhone.setVisibility(View.INVISIBLE);
+                ivMusic.setVisibility(View.INVISIBLE);
+                ivSetting.setVisibility(View.INVISIBLE);
+                switch (i) {
+                    case 0:
+                        rlMain.setBackground(null);
+                        ivPhone.setVisibility(View.VISIBLE);
+                        break;
+                    case 1:
+                        setBackground(getResources().getDrawable(R.drawable.main_music_bg));
+                        ivMusic.setVisibility(View.VISIBLE);
+                        break;
+                    case 2:
+                        rlMain.setBackground(null);
+                        ivSetting.setVisibility(View.VISIBLE);
+                        break;
                 }
 
             }
@@ -161,6 +174,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
                 popupMenu.show();
             }
         });
+
+        setBackground(getResources().getDrawable(R.drawable.main_music_bg));
     }
 
     public void onClick(View view) {
@@ -173,6 +188,10 @@ public class MainActivity extends BaseActivity implements OnClickListener {
                 break;
             case R.id.id_tv_setting:
                 viewPager.setCurrentItem(2);
+                break;
+            case R.id.ib_search:
+                Intent intent = new Intent(App.getInstance(), SearchMusicActivity.class);
+                startActivity(intent);
                 break;
         }
     }
@@ -187,5 +206,10 @@ public class MainActivity extends BaseActivity implements OnClickListener {
         }
         return super.onKeyDown(event.getKeyCode(), event);
     }
+
+    public void setBackground(Drawable drawable) {
+        rlMain.setBackground(drawable);
+    }
+
 
 }

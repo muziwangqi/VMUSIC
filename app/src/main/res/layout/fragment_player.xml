@@ -1,114 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_play"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/rl_play"
-    android:background="#00000000"
     android:layout_gravity="center"
-    >
+    android:background="#00000000">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="71dp"
+        android:src="@drawable/player_bg_wave"
+        />
+
+    <LinearLayout
+        android:id="@+id/ll_volume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="9dp"
+        android:background="@drawable/main_volume_bg"
+        android:orientation="horizontal"
+        android:visibility="invisible">
+
+        <ImageView
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/player_volume_white" />
+
+        <android.support.v7.widget.AppCompatSeekBar
+            android:id="@+id/sb_volume"
+            style="@style/PlayerSeekBarVolumeStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp"
+            android:background="@null"
+            android:splitTrack="false" />
+
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/fl_cover"
-        android:layout_width="266dp"
-        android:layout_height="266dp"
-        android:background="#00000000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="47dp"
-        android:layout_marginTop="34dp"
-        >
+        android:layout_marginTop="35dp"
+        android:background="#00000000">
 
         <ImageView
             android:id="@+id/iv_album_cover_bg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="center"
-            android:src="@drawable/player_cover_default_bg"
+            android:layout_width="266dp"
+            android:layout_height="266dp"
             android:background="#00000000"
-            >
+            android:scaleType="center"
+            android:src="@drawable/player_cover_default_bg">
+
         </ImageView>
 
 
         <ImageView
             android:id="@+id/iv_album_cover"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="center"
-            android:src="@drawable/player_cover_default"
+            android:layout_width="266dp"
+            android:layout_height="266dp"
             android:background="#00000000"
-            >
-        </ImageView>
+            android:scaleType="center"
+            android:src="@drawable/player_cover_default"/>
 
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="21dp"
+            android:layout_marginTop="263dp"
+            android:background="#00000000"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="什么都没有"
+            android:textColor="#0E0E0E"
+            android:textSize="20sp" />
 
+        <TextView
+            android:id="@+id/tv_artist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="291dp"
+            android:background="#00000000"
+            android:gravity="center"
+            android:text="- 无 -"
+            android:textColor="#5F5F5F"
+            android:textSize="12sp" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_lyric"
+        android:layout_width="match_parent"
+        android:layout_height="294dp"
+        android:layout_marginTop="33dp"
+        android:orientation="vertical"
+        android:visibility="invisible">
+
+        <TextView
+            android:id="@+id/tv_name_lyric"
+            android:layout_width="match_parent"
+            android:layout_height="21dp"
+            android:background="#00000000"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="什么都没有"
+            android:textColor="#0E0E0E"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_artist_lyric"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:background="#00000000"
+            android:gravity="center"
+            android:text="- 无 -"
+            android:textColor="#5F5F5F"
+            android:textSize="12sp" />
 
         <com.soling.custom.view.LyricView
             android:id="@+id/lyric_view"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-            android:background="#00000000"
-            android:layout_marginBottom="100dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="32dp"
-            />
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp"
+            android:background="#00000000"/>
 
-    </FrameLayout>
-
-    <TextView
-        android:id="@+id/tv_name"
-        android:layout_width="match_parent"
-        android:layout_height="21dp"
-        android:background="#00000000"
-        android:layout_below="@id/fl_cover"
-        android:textSize="20sp"
-        android:includeFontPadding="false"
-        android:gravity="center"
-        android:text="无法无天"
-        android:textColor="#000"
-        />
-
-    <TextView
-        android:id="@+id/tv_artist"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:textSize="12sp"
-        android:background="#00000000"
-        android:layout_below="@id/tv_name"
-        android:text="- 无 -"
-        android:gravity="center"
-        android:textColor="#000"
-        />
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/ll_play_progress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#00000000"
         android:layout_marginStart="19dp"
         android:layout_marginTop="361dp"
-        android:layout_marginEnd="19dp"
+        android:background="#00000000"
         android:weightSum="1">
 
         <TextView
             android:id="@+id/tv_current_position"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="9dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="16dp"
-            android:textSize="10sp"
             android:layout_weight="0"
+            android:background="#00000000"
             android:text="0:00"
-            android:textColor="#000"
-            android:background="#00000000"/>
+            android:textColor="#5F5F5F"
+            android:textSize="10sp"
+            android:includeFontPadding="false"/>
 
         <android.support.v7.widget.AppCompatSeekBar
             android:id="@+id/seek_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            style="@style/PlayerSeekBarPlayProgressStyle"
+            android:layout_width="323dp"
+            android:layout_height="19dp"
             android:layout_marginEnd="8dp"
-            style="@style/PlayerSeekBarStyle"
-            />
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:background="@null"
+            android:splitTrack="false" />
 
         <TextView
             android:id="@+id/tv_duration"
@@ -116,11 +173,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="296dp"
             android:layout_marginTop="16dp"
-            android:textSize="10sp"
-            android:layout_weight="0"
+            android:background="#00000000"
             android:text="4:00"
-            android:textColor="#000"
-            android:background="#00000000"/>
+            android:textColor="#5F5F5F"
+            android:textSize="10sp"
+            android:includeFontPadding="false"
+            />
 
     </FrameLayout>
 
@@ -128,67 +186,61 @@
         android:id="@+id/ll_play_control"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_alignParentStart="true"
         android:layout_marginTop="400dp"
-        android:gravity="center"
         android:background="#00000000"
-        >
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/ib_change_model"
             android:layout_width="32dp"
             android:layout_height="24dp"
-            android:src="@drawable/player_repeat"
             android:layout_marginStart="19dp"
             android:layout_marginTop="24dp"
-            android:scaleType="fitCenter"
             android:background="#00000000"
-            />
+            android:scaleType="fitCenter"
+            android:src="@drawable/selector_ib_player_repeat" />
 
         <ImageButton
             android:id="@+id/ib_play_last"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:src="@drawable/player_last"
-            android:background="#00000000"
-            android:scaleType="fitCenter"
-            android:onClick="onClick"
             android:layout_marginStart="84dp"
             android:layout_marginTop="19dp"
-            />
+            android:background="#00000000"
+            android:onClick="onClick"
+            android:scaleType="fitCenter"
+            android:src="@drawable/selector_ib_player_last" />
 
         <ImageButton
             android:id="@+id/ib_play"
             android:layout_width="72dp"
             android:layout_height="72dp"
-            android:src="@drawable/player_play"
+            android:layout_marginStart="145dp"
             android:background="#00000000"
             android:scaleType="fitCenter"
-            android:layout_marginStart="145dp"
-            />
+            android:src="@drawable/selector_ib_player_play" />
 
         <ImageButton
             android:id="@+id/ib_play_next"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:src="@drawable/player_next"
-            android:background="#00000000"
             android:layout_marginStart="248dp"
             android:layout_marginTop="19dp"
+            android:background="#00000000"
             android:scaleType="fitCenter"
-            />
+            android:src="@drawable/selector_ib_player_next" />
 
         <ImageButton
             android:id="@+id/ib_list"
             android:layout_width="32dp"
             android:layout_height="24dp"
-            android:layout_marginTop="24dp"
             android:layout_marginStart="312dp"
-            android:src="@drawable/player_list"
+            android:layout_marginTop="24dp"
             android:background="#00000000"
             android:scaleType="fitCenter"
-            />
+            android:src="@drawable/selector_ib_player_list" />
 
     </FrameLayout>
 
@@ -196,57 +248,50 @@
         android:id="@+id/ll_other_control"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:background="#00000000"
-        android:orientation="horizontal"
         android:layout_below="@id/ll_play_control"
+        android:layout_alignParentStart="true"
         android:layout_marginTop="36dp"
-        >
+        android:background="#00000000"
+        android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/ib_like"
             android:layout_width="27dp"
             android:layout_height="27dp"
             android:layout_marginStart="75dp"
-            android:src="@drawable/player_unlike"
-            android:scaleType="fitCenter"
             android:background="#00000000"
-            />
+            android:scaleType="fitCenter"
+            android:src="@drawable/player_unlike" />
 
         <ImageButton
             android:id="@+id/ib_volume"
             android:layout_width="27dp"
             android:layout_height="27dp"
-            android:src="@drawable/player_volume"
             android:layout_marginStart="65dp"
-            android:background="#00000000"/>
+            android:background="#00000000"
+            android:scaleType="fitCenter"
+            android:src="@drawable/selector_ib_player_volume" />
 
         <ImageButton
             android:id="@+id/ib_share"
             android:layout_width="27dp"
             android:layout_height="27dp"
             android:layout_marginStart="65dp"
-            android:src="@drawable/player_share"
+            android:background="#00000000"
             android:scaleType="fitCenter"
-            android:background="#00000000"/>
+            android:src="@drawable/selector_ib_player_share" />
 
         <ImageButton
             android:id="@+id/ib_search"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_toEndOf="@id/ib_share"
-            android:src="@drawable/player_search"
             android:background="#00000000"
-            android:visibility="invisible"/>
-
-        <android.support.v7.widget.AppCompatSeekBar
-            android:id="@+id/sb_volume"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/ib_like"
-            android:visibility="invisible"/>
+            android:src="@drawable/player_search"
+            android:visibility="invisible" />
 
     </LinearLayout>
+
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_music_list"
@@ -254,10 +299,11 @@
         android:layout_height="match_parent"
         android:layout_alignTop="@id/fl_cover"
         android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="7dp"
+        android:layout_marginEnd="0dp"
         android:background="#fff"
-        android:visibility="invisible"
-        />
+        android:visibility="invisible" />
 
 
 </RelativeLayout>

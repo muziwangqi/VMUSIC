@@ -1,5 +1,8 @@
 package com.soling.view.activity;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.os.Build;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,6 +31,7 @@ import com.soling.view.adapter.MusicAdapter;
 import com.soling.view.adapter.SearchHistoryAdapter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -54,7 +58,12 @@ public class SearchMusicActivity extends AppCompatActivity implements SearchMusi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_music);
-
+        // 隐藏系统状态栏和actionbar
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
         initView();
         initData();
         initEvent();
@@ -69,7 +78,7 @@ public class SearchMusicActivity extends AppCompatActivity implements SearchMusi
 
     public void initView() {
         llHotSearch = findViewById(R.id.ll_hot_search);
-        toolbar = findViewById(R.id.toolbar);
+//        toolbar = findViewById(R.id.toolbar);
         searchView = findViewById(R.id.search_view);
         rvNetResult = findViewById(R.id.rv_net_result);
         rvLocalResult = findViewById(R.id.rv_local_result);
@@ -84,13 +93,16 @@ public class SearchMusicActivity extends AppCompatActivity implements SearchMusi
         presenter.bindPlayerService(this);
         presenter.searchHot();
 
-        setSupportActionBar(toolbar);
+//        setSupportActionBar(toolbar);
 
         searchView.setIconifiedByDefault(true);
         searchView.setIconified(false);
         searchView.setFocusable(true);
         searchView.onActionViewExpanded();
         searchView.requestFocusFromTouch();
+        TextView tvSearch = searchView.findViewById(R.id.search_src_text);
+        tvSearch.setTextColor(Color.parseColor("#66FFFFFF"));
+        tvSearch.setTextSize(14);
 
         netAdapter = new MusicAdapter(new ArrayList<Music>());
         netAdapter.setOnItemClickListener(new MusicAdapter.OnItemClickListener() {
@@ -181,7 +193,10 @@ public class SearchMusicActivity extends AppCompatActivity implements SearchMusi
     }
 
     @Override
-    public void showHots(final List<String> hots) {
+    public void showHots(List<String> hots) {
+        if (hots == null || hots.size() == 0) {
+            hots = Arrays.asList("李荣浩", "原来你也在这里", "薛之谦", "许嵩", "再见 你好", "进化", "Justin黄明昊", "张杰");
+        }
         final TagFlowLayout tflHotSearch = new TagFlowLayout(this);
         tflHotSearch.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         tflHotSearch.setTabAdapter(new TagAdapter<String>(hots) {
@@ -189,6 +204,10 @@ public class SearchMusicActivity extends AppCompatActivity implements SearchMusi
             public View getView(FlowLayout parent, int position, String s) {
                 TextView view = (TextView) SearchMusicActivity.this.getLayoutInflater().inflate(R.layout.item_hot_search, parent, false);
                 view.setText(s);
+//                view.setTextColor(R.drawable.selector_tabflow_music_search_hot_font_color);
+                view.setTextColor(getResources().getColorStateList(R.color.selector_tabflow_music_search_hot_font_color));
+                view.setTextSize(14);
+                view.setIncludeFontPadding(false);
                 return view;
             }
         });

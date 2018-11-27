@@ -4,6 +4,61 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="网络和连接"/>
+
+    <Button
+        android:id="@+id/btn_wifinet1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:drawableRight="@drawable/jiantou"
+        android:gravity="center_vertical"
+        android:text="无线网络"
+        android:textSize="15sp" />
+
+    <Button
+        android:id="@+id/btn_bluetoothnet1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:drawableRight="@drawable/jiantou"
+        android:gravity="center_vertical"
+        android:text="蓝牙"
+        android:textSize="15sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="设备"/>
+
+    <Button
+        android:id="@+id/btn_light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:drawableRight="@drawable/jiantou"
+        android:gravity="center_vertical"
+        android:text="亮度设置"
+        android:textSize="15sp" />
+
+    <Button
+        android:id="@+id/btn_theme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:drawableRight="@drawable/jiantou"
+        android:gravity="center_vertical"
+        android:text="主题设置"
+        android:textSize="15sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="系统"/>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="50dp"
@@ -29,7 +84,7 @@
             android:ems="8" />
     </LinearLayout>
 
-    <Button
+    <!--Button
         android:id="@+id/btn_wireless"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,25 +92,7 @@
         android:drawableRight="@drawable/jiantou"
         android:gravity="center_vertical"
         android:text="无线设置"
-        android:textSize="15sp" />
+        android:textSize="15sp" /-->
 
-    <Button
-        android:id="@+id/btn_light"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:drawableRight="@drawable/jiantou"
-        android:gravity="center_vertical"
-        android:text="亮度设置"
-        android:textSize="15sp" />
 
-    <Button
-        android:id="@+id/btn_theme"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:drawableRight="@drawable/jiantou"
-        android:gravity="center_vertical"
-        android:text="主题设置"
-        android:textSize="15sp" />
 </LinearLayout>

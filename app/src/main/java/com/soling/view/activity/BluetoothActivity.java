@@ -1,20 +1,15 @@
 package com.soling.view.activity;
 
-import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,7 +22,6 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Set;
-import java.util.UUID;
 
 public class BluetoothActivity extends BaseActivity {
 
@@ -36,8 +30,7 @@ public class BluetoothActivity extends BaseActivity {
     private BluetoothAdapter bluetoothAdapter;
     private BluetoothDevice connectedDevice;
     private static int code = 1;
-    //    public static final String UUID_CONTENT = "00001101-0000-1000-8000-00805F9B34FB";
-    private WiperSwitch ws_bttop;
+    private WiperSwitch ws_bttop, ws_opensearch;
     private ListView lv_havamatched, lv_connectdevices;
     private BluetoothDeviceListAdapter havamatchedAdapter, connectdevicesAdapter;
     private ConnectThread connectThread;
@@ -52,7 +45,6 @@ public class BluetoothActivity extends BaseActivity {
         lv_havamatched.setAdapter(havamatchedAdapter);
         lv_connectdevices.setAdapter(connectdevicesAdapter);
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
         initListener();
     }
 
@@ -67,6 +59,7 @@ public class BluetoothActivity extends BaseActivity {
         tv_havamatched = findViewById(R.id.tv_havamatched);
         tv_connectdevices = findViewById(R.id.tv_connectdevices);
         ws_bttop = findViewById(R.id.ws_bttop);
+        ws_opensearch = findViewById(R.id.ws_opensearch);
         lv_havamatched = findViewById(R.id.lv_havamatched);
         lv_connectdevices = findViewById(R.id.lv_connectdevices);
     }
@@ -77,58 +70,71 @@ public class BluetoothActivity extends BaseActivity {
         ws_bttop.setOnChangedListener(new WiperSwitch.IOnChangedListener() {
             @Override
             public void onChange(WiperSwitch wiperSwitch, boolean checkStat) {
-//                shortToast("lllllllllllllllllllllllllllllllll");
                 if (checkStat) {
-                    if (bluetoothAdapter == null) {
-                        shortToast("该设备不支持蓝牙");
-                        finish();
-                    } else {
-                        Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                        startActivityForResult(intent, code);
-                        if (bluetoothAdapter!=null){
-                            bluetoothAdapter.startDiscovery();
+                    if (bluetoothAdapter != null) {
+                        if (!bluetoothAdapter.isEnabled()) {
+                            Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                            startActivityForResult(intent, code);
                         }
                         tv_bluetooth_name.setText(bluetoothAdapter.getName());
                         tv_bluetooth_address.setText(bluetoothAdapter.getAddress());
+                    } else {
+                        shortToast("该设备不支持蓝牙");
+                    }
+                } else {
+                    //close
+                    if (bluetoothAdapter.isEnabled()) {
+                        bluetoothAdapter.disable();
+                        if (ws_opensearch.isEnabled()) {
+                            ws_opensearch.setChecked(false);
+//                            tv_connectdevices.setText("");
+                            tv_connectdevices.setVisibility(View.GONE);
+//                            tv_connectdevices.setBackgroundColor(Color.WHITE);
+                            connectdevicesAdapter.clear();
+                            connectdevicesAdapter.notifyDataSetChanged();
+                        }
+                        ws_bttop.setChecked(false);
+//                        tv_havamatched.setText("");
+//                        tv_havamatched.setBackgroundColor(Color.WHITE);
+                        tv_havamatched.setVisibility(View.GONE);
+                        havamatchedAdapter.clear();
+                        havamatchedAdapter.notifyDataSetChanged();
+                    } else {
+                        shortToast("蓝牙未开启，请先打开蓝牙");
+                    }
+                }
+            }
+        });
 
-                        //获取所有已绑定的蓝牙设备
-                        Set<BluetoothDevice> devices = bluetoothAdapter.getBondedDevices();
-                        if (devices.size() > 0) {
-                            for (BluetoothDevice device : devices) {
-                                // scan and add it to adapter
-                                havamatchedAdapter.addDevice(device);
-                                //update listview
-                                havamatchedAdapter.notifyDataSetChanged();
-                            }
+        ws_opensearch.setChecked(false);
+        ws_opensearch.setOnChangedListener(new WiperSwitch.IOnChangedListener() {
+            @Override
+            public void onChange(WiperSwitch wiperSwitch, boolean checkStat) {
+                if (checkStat) {
+                    tv_havamatched.setText("已配对设备");
+                    tv_havamatched.setBackgroundColor(Color.GRAY);
+                    tv_connectdevices.setText("可用设备");
+                    tv_connectdevices.setBackgroundColor(Color.GRAY);
+                    bluetoothAdapter.startDiscovery();
+                    //获取所有已绑定的蓝牙设备
+                    Set<BluetoothDevice> devices = bluetoothAdapter.getBondedDevices();
+                    if (devices.size() > 0) {
+                        for (BluetoothDevice device : devices) {
+                            // scan and add it to adapter
+                            havamatchedAdapter.addDevice(device);
+                            //update listview
+                            havamatchedAdapter.notifyDataSetChanged();
+                            System.out.println("已配对设备：" + device);
                         }
                     }
                 } else {
-                    if (bluetoothAdapter.isEnabled()) {
-                        AlertDialog.Builder dialog = new AlertDialog.Builder(BluetoothActivity.this);
-                        dialog.setMessage("确定关闭蓝牙吗？");
-                        dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (bluetoothAdapter != null || bluetoothAdapter.isEnabled()) {
-                                    bluetoothAdapter.disable();//close
-                                    tv_havamatched.setText("");
-                                    tv_connectdevices.setText("");
-                                    tv_havamatched.setBackgroundResource(R.color.tv_background);
-                                    tv_connectdevices.setBackgroundResource(R.color.tv_background);
-                                    havamatchedAdapter.clear();
-                                    connectdevicesAdapter.clear();
-                                }
-                            }
-                        });
-                        dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                return;
-                            }
-                        });
-                        dialog.show();
-                    } else {
-                        shortToast("蓝牙未开启，请先打开蓝牙");
+                    if (bluetoothAdapter.isDiscovering()) {
+                        bluetoothAdapter.cancelDiscovery();
+                        connectdevicesAdapter.clear();
+//                        tv_connectdevices.setText("");
+//                        tv_connectdevices.setBackgroundColor(Color.WHITE);
+                        tv_connectdevices.setVisibility(View.GONE);
+                        connectdevicesAdapter.notifyDataSetChanged();
                     }
                 }
             }
@@ -192,21 +198,14 @@ public class BluetoothActivity extends BaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
+            System.out.println("--action-------" + action);
             //获取已搜索到的设备
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-//                if (address == null) {
-//                    address = device.getAddress();
-//                }
                 //搜索到的非配对的蓝牙设备
-                if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
-                    connectdevicesAdapter.addDevice(device);
-                    connectdevicesAdapter.notifyDataSetChanged();
-                }
+                connectdevicesAdapter.addDevice(device);
+                connectdevicesAdapter.notifyDataSetChanged();
 //                tv_devices.setText(tv_devices.getText() + "\n" + device.getName() + "-->" + device.getAddress());
-            } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
-                setProgressBarIndeterminateVisibility(false);
-                setTitle("搜索蓝牙设备");
             }
         }
     };
@@ -258,7 +257,6 @@ public class BluetoothActivity extends BaseActivity {
                     return;
                 }
             }
-            //在线程中管理连接；
         }
 
         public void cancel() {
@@ -269,93 +267,4 @@ public class BluetoothActivity extends BaseActivity {
             }
         }
     }
-
-    //使用UUID，客户端进行连接，服务端接收连接
-    //客户端
-    /*public class ConnectThread extends Thread {
-
-        private BluetoothDevice btDevice;
-        private BluetoothSocket btSocket;
-        private String s = "00001101-0000-1000-8000-00805F9B34FB";
-        private boolean isConnect = false;
-
-        public ConnectThread(BluetoothDevice device) {
-            try {
-                BluetoothSocket temSocket = null;
-                btDevice = device;
-                temSocket = device.createRfcommSocketToServiceRecord(UUID.fromString(s));
-                btSocket = temSocket;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        public void run() {
-            try {
-                btSocket.connect();
-                isConnect = true;
-                shortToast("连接成功");
-            } catch (IOException e) {
-                try {
-                    btSocket.close();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                    return;
-                }
-            }
-        }
-
-        public void cancle() {
-            try {
-                btSocket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    //服务端
-    class ReceiveThread extends Thread {
-        private BluetoothServerSocket bluetoothServerSocket;
-
-        public ReceiveThread() {
-            BluetoothServerSocket temSocket = null;
-            try {
-                BluetoothAdapter.getDefaultAdapter().listenUsingInsecureRfcommWithServiceRecord("蓝牙连接", UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            bluetoothServerSocket = temSocket;
-        }
-
-        @Override
-        public void run() {
-            BluetoothSocket socket = null;
-            while (true) {
-                try {
-                    socket = bluetoothServerSocket.accept();
-                    break;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                if (socket == null) {
-                    try {
-                        bluetoothServerSocket.close();
-                        break;
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-
-        public void cancle() {
-            try {
-                bluetoothServerSocket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }*/
 }

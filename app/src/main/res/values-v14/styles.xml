@@ -31,12 +31,20 @@
         <item name="android:background">#CCFFFF</item>
     </style>
 
-    <style name="PlayerSeekBarStyle">
+    <style name="PlayerSeekBarPlayProgressStyle">
         <item name="android:maxHeight">2dp</item>
         <item name="android:indeterminateOnly">false</item>
-        <item name="android:progressDrawable">@drawable/player_seekbar_play_progress</item>
+        <item name="android:progressDrawable">@drawable/player_seek_bar_play_progress</item>
         <item name="android:minHeight">2dp</item>
-        <item name="android:thumb">@drawable/player_slider_p</item>
+        <item name="android:thumb">@drawable/player_slider</item>
+    </style>
+
+    <style name="PlayerSeekBarVolumeStyle">
+        <item name="android:maxHeight">2dp</item>
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/player_seek_bar_volume_controll</item>
+        <item name="android:minHeight">2dp</item>
+        <item name="android:thumb">@drawable/player_volume_slider</item>
     </style>
 
 </resources>
