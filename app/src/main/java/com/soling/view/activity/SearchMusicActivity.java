@@ -2,8 +2,10 @@ package com.soling.view.activity;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -101,7 +103,7 @@ public class SearchMusicActivity extends AppCompatActivity implements SearchMusi
         searchView.onActionViewExpanded();
         searchView.requestFocusFromTouch();
         TextView tvSearch = searchView.findViewById(R.id.search_src_text);
-        tvSearch.setTextColor(Color.parseColor("#66FFFFFF"));
+        tvSearch.setTextColor(Color.parseColor("#B3FFFFFF"));
         tvSearch.setTextSize(14);
 
         netAdapter = new MusicAdapter(new ArrayList<Music>());
@@ -142,7 +144,9 @@ public class SearchMusicActivity extends AppCompatActivity implements SearchMusi
             }
         });
         rvSearchHistory.setLayoutManager(new LinearLayoutManager(this));
-        rvSearchHistory.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(new ColorDrawable(Color.parseColor("#1A000000")));
+        rvSearchHistory.addItemDecoration(dividerItemDecoration);
         rvSearchHistory.setAdapter(historyAdapter);
     }
 

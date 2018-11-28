@@ -86,7 +86,7 @@ public class SettingModuleFragment extends BaseFragment {
     private void initView() {
         etTime = (EditText) findViewById(R.id.et_time);
         btnLight = (Button) findViewById(R.id.btn_light);
-        btnWireless = (Button) findViewById(R.id.btn_wireless);
+//        btnWireless = (Button) findViewById(R.id.btn_wireless);
         btnTheme = (Button) findViewById(R.id.btn_theme);
         btn_wifinet1= (Button) findViewById(R.id.btn_wifinet1);
         btn_bluetoothnet1= (Button) findViewById(R.id.btn_bluetoothnet1);
@@ -127,14 +127,6 @@ public class SettingModuleFragment extends BaseFragment {
                 if (hasFocus) {
                     showTimeDialog();
                 }
-            }
-        });
-
-        btnWireless.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), WirelessActivity.class);
-                startActivity(intent);
             }
         });
 
