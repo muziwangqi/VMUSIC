@@ -43,6 +43,7 @@ import com.soling.presenter.PlayerContract;
 import com.soling.presenter.PlayerPresenter;
 import com.soling.service.player.IPlayer;
 import com.soling.utils.BitmapUtil;
+import com.soling.utils.BluetoothUtil;
 import com.soling.utils.MusicFileManager;
 import com.soling.utils.StringUtil;
 import com.soling.view.activity.MainActivity;
@@ -478,10 +479,11 @@ public class PlayerFragment extends BaseFragment implements PlayerContract.View,
                 break;
             case R.id.ib_share:
                 Log.d(TAG, "onClick: " + "ib_share");
-                if (shareMusicListener != null) {
-                    Log.d(TAG, "onClick: " + " shareMusicListener");
-                    shareMusicListener.shareMusic(presenter.getPlayingMusic());
-                }
+//                if (shareMusicListener != null) {
+//                    Log.d(TAG, "onClick: " + " shareMusicListener");
+//                    shareMusicListener.shareMusic(presenter.getPlayingMusic());
+//                }
+                BluetoothUtil.share(presenter.getPlayingMusic().getPath());
                 break;
         }
     }

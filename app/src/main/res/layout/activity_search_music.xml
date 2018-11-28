@@ -78,7 +78,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="40dp"
                 android:textSize="14dp"
                 android:textColor="#B0B0B0"
                 android:layout_marginStart="17dp"
@@ -102,10 +102,45 @@
             android:orientation="vertical"
             android:visibility="invisible">
 
-            <TextView
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="网络音乐"/>
+                android:layout_marginTop="11dp">
+
+                <ImageView
+                    android:id="@+id/iv_artist"
+                    android:layout_width="67dp"
+                    android:layout_height="67dp"
+                    android:layout_marginStart="14dp"
+                    android:src="@drawable/search_result_artist_default"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_toEndOf="@id/iv_artist"
+                    android:layout_marginStart="9dp"
+                    android:textSize="16sp"
+                    android:includeFontPadding="false"
+                    android:text="歌手周杰伦"
+                    android:textColor="#202020"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textSize="12sp"
+                    android:textColor="#8F8F8F"
+                    android:text="单曲:881 专辑:31 视频：1419"
+                    android:layout_toEndOf="@id/iv_artist"
+                    android:layout_marginStart="9dp"
+                    android:layout_below="@id/tv_name"
+                    />
+
+            </RelativeLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_net_result"
@@ -115,12 +150,19 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="本地音乐"/>
+                android:text="单曲"
+                android:textColor="#B894F5"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="15dp"
+                android:textSize="14sp"
+                android:layout_marginBottom="12dp"
+                />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_local_result"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginStart="17dp"/>
 
         </LinearLayout>
 

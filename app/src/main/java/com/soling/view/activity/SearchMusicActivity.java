@@ -117,6 +117,8 @@ public class SearchMusicActivity extends AppCompatActivity implements SearchMusi
         rvNetResult.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         rvNetResult.setAdapter(netAdapter);
 
+        DividerItemDecoration divider = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        divider.setDrawable(new ColorDrawable(Color.parseColor("#1A000000")));
         localAdapter = new MusicAdapter(new ArrayList<Music>());
         localAdapter.setOnItemClickListener(new MusicAdapter.OnItemClickListener() {
             @Override
@@ -144,9 +146,7 @@ public class SearchMusicActivity extends AppCompatActivity implements SearchMusi
             }
         });
         rvSearchHistory.setLayoutManager(new LinearLayoutManager(this));
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        dividerItemDecoration.setDrawable(new ColorDrawable(Color.parseColor("#1A000000")));
-        rvSearchHistory.addItemDecoration(dividerItemDecoration);
+        rvSearchHistory.addItemDecoration(divider);
         rvSearchHistory.setAdapter(historyAdapter);
     }
 

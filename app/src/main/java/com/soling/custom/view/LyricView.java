@@ -24,8 +24,8 @@ import com.soling.model.LyricLine;
 public class LyricView extends View {
 
     private static final String TAG = "LyricView";
-    private static final int MARGIN_BOTTOM = 36; // dp
-    private static final int TEXT_SIZE = 12;    // sp
+    private static final int MARGIN_BOTTOM = 72; // dp
+    private static final int TEXT_SIZE = 36;    // px
     private static final String CURRENT_LINE_COLOR = "#BD94F5";
     private static final String OTHER_LINE_COLOR = "#2C2C2C";
 
@@ -45,7 +45,7 @@ public class LyricView extends View {
         super(context, attrs);
         Log.d(TAG, "LyricView: " + "create completed !");
         textPaint.setAntiAlias(true);
-        textPaint.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, TEXT_SIZE, getResources().getDisplayMetrics()));
+        textPaint.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, TEXT_SIZE, getResources().getDisplayMetrics()));
         textPaint.setTextAlign(Paint.Align.LEFT);
         staticLayouts = new ArrayList<StaticLayout>();
     }
