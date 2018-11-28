@@ -129,14 +129,16 @@ public class SettingModuleFragment extends BaseFragment {
             }
         });
 
+<<<<<<< 1f925ad3a04256c4226ed80d0a94409a8b4bdc3a
+=======
+
+>>>>>>> add bluetooth1128
         btnLight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 View viewDialog = getLayoutInflater().inflate(R.layout.layout_light_dialog, null);
                 cb_auto_mode = viewDialog.findViewById(R.id.cb_auto_mode);
                 sb_hand_mode = viewDialog.findViewById(R.id.sb_hand_mode);
-
                 final int currBrightness = LightDialogUtil.getSystemBrightness();
                 final int currBrightnessMode = LightDialogUtil.getBrightnessMode();
 

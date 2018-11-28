@@ -62,8 +62,12 @@ public class BluetoothChatActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.chat_bluetooth);
         mTitle = findViewById(R.id.bluetooth_name);
-        String address = (String) getIntent().getExtras().get("device_address");
-        mTitle.setText(address);
+        String address = (String) getIntent().getExtras().get(BluetoothDevicesListActivity.EXTRA_DEVICE_ADDRESS);
+        if(address.equals("")&&address==null){
+            mTitle.setText("空");
+        }else{
+            mTitle.setText(address);
+        }
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null) {
             Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_LONG).show();            ;
@@ -103,7 +107,7 @@ public class BluetoothChatActivity extends Activity {
 
     private void setupChat() {
         Log.d(TAG, "setupChat");
-        mConversationArrayAdapter = new ArrayAdapter<String>(this, R.layout.chat_get);
+        mConversationArrayAdapter = new ArrayAdapter<String>(this, R.layout.chat_bluetooth);
         mConversationView = findViewById(R.id.bluetooth_chat_list);
         mConversationView.setAdapter(mConversationArrayAdapter);
         mOutEditText = findViewById(R.id.bluetooth_chat_content);

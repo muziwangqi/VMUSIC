@@ -105,7 +105,7 @@ public class BluetoothDevicesListActivity extends BaseActivity {
             String info = ((TextView)view).getText().toString();
             String address = info.substring(info.length()-17);
             Intent intent = new Intent(BluetoothDevicesListActivity.this,BluetoothChatActivity.class);
-            intent.putExtra(EXTRA_DEVICE_ADDRESS, address);
+            intent.putExtra(EXTRA_DEVICE_ADDRESS, info);
             setResult(Activity.RESULT_OK,intent);
             startActivity(intent);
             finish();

@@ -9,6 +9,7 @@ import java.io.IOException;
 import com.soling.model.PhoneDto;
 import com.soling.model.User;
 import com.soling.R;
+import com.soling.utils.BitmapUtil;
 import com.soling.utils.PhoneUtil;
 import com.soling.utils.PhotoHandleUtil;
 import com.soling.utils.db.RealPathFromUriUtils;
@@ -36,6 +37,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager.OnActivityResultListener;
 import android.provider.MediaStore;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -256,9 +258,31 @@ public class InformationActivity extends BaseActivity implements OnClickListener
                 break;
             case CROP_PHOTO:
                 if(resultCode == RESULT_OK){
+                    Bitmap bitmap = null;
                     try {
-                        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
-                        image.setImageBitmap(bitmap);
+                        if(data.getData()==null){
+                            bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
+                        }else{
+                            imageUri = data.getData();
+                            Intent intent = new Intent("com.android.camera.action.CROP");
+                            intent.setDataAndType(imageUri,data.getType());
+                            intent.putExtra("scale", true);
+                            intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
+                            startActivityForResult(intent,CROP_PHOTO);//启动裁剪程序
+                            bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(data.getData()));
+                            bitmap = BitmapUtil.crop(bitmap,100,100);
+//                            //缩放法压缩图片
+//                            Matrix matrix = new Matrix();
+//                            matrix.setScale(0.5f, 0.5f);
+//                            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
+//                                    bitmap.getHeight(), matrix, true);
+                        }
+                        if(bitmap!=null){
+                            RoundedBitmapDrawable roundedBitmapDrawable = BitmapUtil.roundedBitmapDrawable(bitmap);
+                            image.setImageDrawable(roundedBitmapDrawable);
+                        }
+
+
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }

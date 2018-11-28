@@ -299,7 +299,7 @@ public class BluetoothChatService {
         public void write(byte[] buffer) {
             try {
                 mmOutStream.write(buffer);
-                mHandler.obtainMessage(BluetoothChatActivity.MESSAGE_READ, -1, -1, buffer).sendToTarget();
+                mHandler.obtainMessage(BluetoothChatActivity.MESSAGE_WRITE, -1, -1, buffer).sendToTarget();
 
             } catch (IOException e) {
                 e.printStackTrace();
