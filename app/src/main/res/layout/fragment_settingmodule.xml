@@ -6,7 +6,8 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
         android:text="网络和连接"/>
 
     <Button
@@ -31,8 +32,9 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="设备"/>
+        android:layout_height="40dp"
+        android:text="设备"
+        android:gravity="center_vertical"/>
 
     <Button
         android:id="@+id/btn_light"
@@ -56,8 +58,9 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="系统"/>
+        android:layout_height="40dp"
+        android:text="系统"
+        android:gravity="center_vertical"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -83,16 +86,4 @@
             android:background="@null"
             android:ems="8" />
     </LinearLayout>
-
-    <!--Button
-        android:id="@+id/btn_wireless"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:drawableRight="@drawable/jiantou"
-        android:gravity="center_vertical"
-        android:text="无线设置"
-        android:textSize="15sp" /-->
-
-
 </LinearLayout>

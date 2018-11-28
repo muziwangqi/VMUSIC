@@ -27,9 +27,9 @@ import com.soling.R;
 import com.soling.service.player.PlayerService;
 import com.soling.utils.LightDialogUtil;
 import com.soling.view.activity.BluetoothActivity;
+import com.soling.view.activity.GexingActivity;
 import com.soling.view.activity.ThemeActivity;
 import com.soling.view.activity.WifiActivity;
-import com.soling.view.activity.WirelessActivity;
 import com.soling.view.adapter.ShakeListener;
 
 import java.text.SimpleDateFormat;
@@ -40,7 +40,7 @@ public class SettingModuleFragment extends BaseFragment {
 
     private static final String TAG = SettingModuleFragment.class.getSimpleName();
 
-    private Button btnLight, btnWireless, btnTheme, btnBluetooth;
+    private Button btnLight, btnTheme;
     private EditText etTime;
     private DatePickerDialog datePickerDialog;
     private SeekBar sb_hand_mode;
@@ -86,7 +86,6 @@ public class SettingModuleFragment extends BaseFragment {
     private void initView() {
         etTime = (EditText) findViewById(R.id.et_time);
         btnLight = (Button) findViewById(R.id.btn_light);
-        btnWireless = (Button) findViewById(R.id.btn_wireless);
         btnTheme = (Button) findViewById(R.id.btn_theme);
         btn_wifinet1= (Button) findViewById(R.id.btn_wifinet1);
         btn_bluetoothnet1= (Button) findViewById(R.id.btn_bluetoothnet1);
@@ -127,14 +126,6 @@ public class SettingModuleFragment extends BaseFragment {
                 if (hasFocus) {
                     showTimeDialog();
                 }
-            }
-        });
-
-        btnWireless.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), WirelessActivity.class);
-                startActivity(intent);
             }
         });
 
@@ -218,10 +209,15 @@ public class SettingModuleFragment extends BaseFragment {
         btnTheme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ThemeActivity.class);
+                Intent intent = new Intent(getActivity(), GexingActivity.class);
                 startActivity(intent);
             }
         });
+    }
+
+    public void fragmentJump(Context context,Class<?> cls){
+        Intent intent=new Intent(context,cls);
+        startActivity(intent);
     }
 
     //setting: time dialog

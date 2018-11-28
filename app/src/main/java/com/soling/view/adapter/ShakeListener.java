@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 public class ShakeListener implements SensorEventListener {
 
-	private static final int SPEED_SHAKE=3000;
+	private static final int SPEED_SHAKE=5000;
 	private static final int UPDATE_TIME=70;//时间间隔
 	private SensorManager sensorManager;
 	private Sensor sensor;

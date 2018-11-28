@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+
+    <ImageSwitcher
+        android:id="@+id/is_pic"
+        android:layout_width="match_parent"
+        android:layout_height="370dp"></ImageSwitcher>
+
+    <Gallery
+        android:id="@+id/gal_pic"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:layout_below="@id/is_pic"></Gallery>
+
+    <Button
+        android:id="@+id/btn_set"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_below="@id/gal_pic"
+        android:layout_centerHorizontal="true"
+        android:text="set" />
+
+</RelativeLayout>
