@@ -3,12 +3,14 @@ package com.soling;
 
 import android.app.Application;
 import android.content.Intent;
+import android.graphics.Typeface;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import com.soling.model.Music;
 
+import com.soling.utils.FontUtil;
 import com.soling.utils.MusicFileManager;
 import com.soling.utils.SharedPreferenceUtil;
 import com.soling.model.PlayList;
@@ -27,6 +29,7 @@ public class App extends Application {
     private static App INSTANCE = null;
 
     private Intent playerService;
+    private Typeface typeface;
 
     @Override
     public void onCreate() {
@@ -34,6 +37,7 @@ public class App extends Application {
         INSTANCE = this;
         MusicFileManager musicFileManager = MusicFileManager.getInstance(this);
         isThemec();
+        FontUtil.setDefaultFont(this, "DEFAULT", "font/sans.ttf");
     }
 
     public static boolean isThemec() {
@@ -88,4 +92,9 @@ public class App extends Application {
     public void setPlayerService(Intent playerService) {
         this.playerService = playerService;
     }
+
+    public Typeface getTypeface() {
+        return typeface;
+    }
+
 }
