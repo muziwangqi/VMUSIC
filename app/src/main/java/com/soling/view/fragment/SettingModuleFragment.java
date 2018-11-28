@@ -129,10 +129,6 @@ public class SettingModuleFragment extends BaseFragment {
             }
         });
 
-<<<<<<< 1f925ad3a04256c4226ed80d0a94409a8b4bdc3a
-=======
-
->>>>>>> add bluetooth1128
         btnLight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
